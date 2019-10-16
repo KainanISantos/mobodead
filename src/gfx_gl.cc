@@ -3,6 +3,7 @@
 #include <stack>
 #include <iostream>
 #include <string>
+#include <cstdint>
 
 using namespace gfx;
 
@@ -68,4 +69,17 @@ unsigned int gl::create_program(const gl::source_list& sources)
 	return program;
 }
 
-
+unsigned int gl::create_vertex_array(const gl::vao_element_list& elements)
+{
+	unsigned int vao;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	for(auto& e : elements)
+	{
+		glEnableVertexAttribArray(e.index);
+		glVertexAttribPointer(e.index, e.size, e.type, false, e.stride, (void*)((uintptr_t)e.offset));
+		glVertexAttribDivisor(e.index, e.divisor);
+	}
+	glBindVertexArray(0);
+	return vao;
+}
