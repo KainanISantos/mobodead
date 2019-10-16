@@ -18,6 +18,11 @@ namespace wnd {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		data.window = glfwCreateWindow(data.w, data.h, data.title.c_str(), nullptr, window);
 	}
+
+	static void destroy(GLFWwindow* window)
+	{
+		glfwDestroyWindow(window);
+	}
 }
 
 void wnd::create()
@@ -27,12 +32,14 @@ void wnd::create()
 
 void wnd::destroy()
 {
-	glfwDestroyWindow(data.window);
+	destroy(data.window);
 }
 
 void wnd::recreate()
 {
-	create(data.window);
+	GLFWwindow* prev_window = data.window;
+	create(prev_window);
+	destroy(prev_window);
 }
 
 void wnd::set_size(int w, int h) 
