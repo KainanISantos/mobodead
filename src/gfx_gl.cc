@@ -47,7 +47,18 @@ unsigned int gl::create_program(const gl::source_list& sources)
 		c_shaders.push(shader);
 	}
 	glLinkProgram(program);
-	//TODO: link error
+	int cmp;
+	glGetProgramiv(program, GL_LINK_STATUS, &cmp);
+	if(!cmp)
+	{
+		int info_log_length;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_log_length);
+		std::string info_log;
+		info_log.reserve(info_log_length);
+		glGetProgramInfoLog(program, info_log_length, &info_log_length, &info_log[0]);
+		std::cout << "program link error!" << std::endl;
+		std::cout << "info log: " << info_log << std::endl;
+	}
 	while(!c_shaders.empty())
 	{
 		glDetachShader(program, c_shaders.top());
@@ -56,3 +67,5 @@ unsigned int gl::create_program(const gl::source_list& sources)
 	}
 	return program;
 }
+
+
