@@ -43,4 +43,8 @@ void gfx::render()
 
 void gfx::end()
 {
+	for(renderer* rend : renderers)
+	{
+		delete rend;
+	}
 }
