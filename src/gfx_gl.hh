@@ -13,6 +13,7 @@ namespace gfx {
 		};
 
 		struct vertex_array_element {
+			unsigned int buffer;
 			unsigned int index;
 			unsigned int type;
 			unsigned int size;

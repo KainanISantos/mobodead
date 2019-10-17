@@ -76,10 +76,12 @@ unsigned int gl::create_vertex_array(const gl::vao_element_list& elements)
 	glBindVertexArray(vao);
 	for(auto& e : elements)
 	{
+		glBindBuffer(GL_ARRAY_BUFFER, e.buffer);
 		glEnableVertexAttribArray(e.index);
 		glVertexAttribPointer(e.index, e.size, e.type, false, e.stride, (void*)((uintptr_t)e.offset));
 		glVertexAttribDivisor(e.index, e.divisor);
 	}
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	return vao;
 }
